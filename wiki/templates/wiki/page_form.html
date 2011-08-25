@@ -10,6 +10,7 @@
         <h1>New Page</h1>
     </header>
     <form method='POST'>
+    {% csrf_token %}
     {{ form.as_p }}
     <input type='submit'/>
     </form>
