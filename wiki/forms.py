@@ -6,3 +6,8 @@ class NewPageForm(ModelForm):
         exclude = ('slug', 'user')
         model = Page
 
+class EditPageForm(ModelForm):
+    class Meta:
+        exclude = ('user')
+        hidden = ('title', 'slug')
+        model = Page
