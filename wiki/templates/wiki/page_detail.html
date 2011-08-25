@@ -6,7 +6,7 @@
     <h3>Actions</h3>
     <ul>
         <li><a href='{% url page_edit slug=page.slug %}'>Edit</a></li>
-        <li><a href='history'>History</a></li>
+        <li><a href='{% url page_history slug=page.slug %}'>History</a></li>
     </ul>
 {% endblock %}
 

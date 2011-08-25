@@ -46,7 +46,17 @@ class ViewPage(DetailView):
     model = Page
 
     def get_object(self):
+        if 'id' in self.kwargs:
+            return Page.objects.get(id=self.kwargs['id'])
         return Page.objects.filter(slug=self.kwargs['slug']).order_by('-date_modified')[0]
+
+
+class HistoryPage(ListView):
+    model = Page
+    template_name = 'wiki/page_history.html'
+
+    def get_queryset(self):
+        return Page.objects.filter(slug=self.kwargs['slug']).order_by('-date_modified')
 
 
 class ListPage(ListView):
