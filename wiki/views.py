@@ -1,9 +1,10 @@
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
 from .forms import NewPageForm, EditPageForm
 from .models import Page
+
 
 class CreatePage(CreateView):
     form_class = NewPageForm
@@ -19,6 +20,7 @@ class CreatePage(CreateView):
         page.save()
         self.object = page
         return HttpResponseRedirect(self.get_success_url())
+
 
 class EditPage(UpdateView):
     form_class = EditPageForm
@@ -39,9 +41,16 @@ class EditPage(UpdateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
+
 class ViewPage(DetailView):
     model = Page
 
     def get_object(self):
         return Page.objects.filter(slug=self.kwargs['slug']).order_by('-date_modified')[0]
 
+
+class ListPage(ListView):
+    model = Page
+
+    def get_queryset(self):
+        return Page.objects.values('title', 'slug').order_by('title').distinct()
